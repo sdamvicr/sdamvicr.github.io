@@ -42,8 +42,31 @@
     }
     .result {
       font-size: 2em;
-      margin: 30px 0;
+      margin: 20px 0;
       color: #1f2937;
+    }
+    .answers-container {
+      text-align: left;
+      margin: 30px 0;
+    }
+    .answer {
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      background-color: #f9fafb;
+    }
+    .correct {
+      border-left: 5px solid #10b981;
+    }
+    .incorrect {
+      border-left: 5px solid #ef4444;
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .user-answer, .correct-answer {
+      margin-left: 15px;
     }
     .retry-btn {
       display: block;
@@ -62,6 +85,21 @@
     .retry-btn:hover {
       background-color: #ea580c;
     }
+    .toggle-answers {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 15px 0;
+    }
+    .toggle-answers:hover {
+      background-color: #2563eb;
+    }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -76,16 +114,78 @@
   <div class="container">
     <h2>Результаты тестирования</h2>
     <div class="result" id="resultText">Ваш результат: </div>
-    <a href="/" class="retry-btn">Пройти ещё раз</a>
+    
+    <button class="toggle-answers" id="toggleAnswers">Показать ответы</button>
+    
+    <div class="answers-container hidden" id="answersContainer">
+      <!-- Здесь будут отображаться ответы -->
+    </div>
+    
+    <a href="index.html" class="retry-btn">Пройти ещё раз</a>
   </div>
 
   <script>
-    // Получаем параметр из URL
+    // Правильные ответы (должны совпадать с теми, что в основном тесте)
+    const correctAnswers = [
+      'порк',
+      'кар',
+      'захват',
+      'грусть',
+      'дает',
+      'лошадь',
+      'затвра'
+    ];
+    
+    // Вопросы для отображения
+    const questions = [
+      '1. Кто это?',
+      '2. Что скажет этот персонаж?',
+      '3. Что произойдёт через 3 секунды?',
+      '4. Определите вид эмоции на лице:',
+      '5. Что делает этот человек?',
+      '6. Кто главный герой этой сцены?',
+      '7. Как называется этот мем?'
+    ];
+    
+    // Получаем параметры из URL
     const urlParams = new URLSearchParams(window.location.search);
     const percentage = urlParams.get('pr');
+    const userAnswers = JSON.parse(decodeURIComponent(urlParams.get('answers')));
     
     // Выводим результат
     document.getElementById('resultText').textContent += `${percentage}%`;
+    
+    // Отображаем ответы
+    const answersContainer = document.getElementById('answersContainer');
+    
+    userAnswers.forEach((answer, index) => {
+      const isCorrect = answer.toLowerCase().includes(correctAnswers[index]);
+      
+      const answerElement = document.createElement('div');
+      answerElement.className = `answer ${isCorrect ? 'correct' : 'incorrect'}`;
+      
+      answerElement.innerHTML = `
+        <div class="question">${questions[index]}</div>
+        <div class="user-answer">Ваш ответ: ${answer || '—'}</div>
+        ${!isCorrect ? `<div class="correct-answer">Правильный ответ: ${correctAnswers[index]}</div>` : ''}
+      `;
+      
+      answersContainer.appendChild(answerElement);
+    });
+    
+    // Кнопка показа/скрытия ответов
+    document.getElementById('toggleAnswers').addEventListener('click', function() {
+      const container = document.getElementById('answersContainer');
+      const button = document.getElementById('toggleAnswers');
+      
+      if (container.classList.contains('hidden')) {
+        container.classList.remove('hidden');
+        button.textContent = 'Скрыть ответы';
+      } else {
+        container.classList.add('hidden');
+        button.textContent = 'Показать ответы';
+      }
+    });
   </script>
 </body>
 </html>
