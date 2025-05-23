@@ -143,7 +143,7 @@
       'грусть',
       'дает',
       'лошадь',
-      'затвра'
+      'завтра'
     ];
     
     // Получаем ответы пользователя
@@ -164,7 +164,7 @@
     const percentage = Math.ceil(correctCount * 14.2);
     
     // Перенаправляем на страницу результатов с параметрами
-    window.location.href = `results.html?pr=${percentage}&answers=${encodeURIComponent(JSON.stringify(userAnswers))}`;
+    window.location.href = `results?pr=${percentage}&answers=${encodeURIComponent(JSON.stringify(userAnswers))}`;
   });
 </script>
 </body>
