@@ -58,16 +58,20 @@
       border-radius: 4px;
       margin-top: 5px;
     }
-    .task button {
-      margin-top: 10px;
-      padding: 8px 16px;
+    .submit-btn {
+      display: block;
+      width: 200px;
+      margin: 30px auto;
+      padding: 12px 24px;
       background-color: #f97316;
       color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 1.1em;
+      text-align: center;
     }
-    .task button:hover {
+    .submit-btn:hover {
       background-color: #ea580c;
     }
   </style>
@@ -88,56 +92,81 @@
     <div class="task">
       <h3>1. Кто это?</h3>
       <img src="/images/1.png" alt="картинка задание 1">
-      <input type="text" placeholder="Ответ">
-      <button>Отправить</button>
+      <input type="text" placeholder="Ответ" id="answer1">
     </div>
 
     <div class="task">
       <h3>2. Что скажет этот персонаж?</h3>
       <img src="/images/2.png" alt="картинка задание 2">
-      <input type="text" placeholder="Ответ">
-      <button>Отправить</button>
+      <input type="text" placeholder="Ответ" id="answer2">
     </div>
 
     <div class="task">
       <h3>3. Что произойдёт через 3 секунды?</h3>
       <img src="/images/3.png" alt="картинка задание 3">
-      <input type="text" placeholder="Ответ">
-      <button>Отправить</button>
+      <input type="text" placeholder="Ответ" id="answer3">
     </div>
 
     <div class="task">
       <h3>4. Определите вид эмоции на лице:</h3>
       <img src="/images/4.png" alt="картинка задание 4">
-      <input type="text" placeholder="Ответ">
-      <button>Отправить</button>
+      <input type="text" placeholder="Ответ" id="answer4">
     </div>
 
     <div class="task">
       <h3>5. Что делает этот человек?</h3>
       <img src="/images/5.png" alt="картинка задание 5">
-      <input type="text" placeholder="Ответ">
-      <button>Отправить</button>
+      <input type="text" placeholder="Ответ" id="answer5">
     </div>
 
     <div class="task">
       <h3>6. Кто главный герой этой сцены?</h3>
       <img src="/images/6.png" alt="картинка задание 6">
-      <input type="text" placeholder="Ответ">
-      <button>Отправить</button>
+      <input type="text" placeholder="Ответ" id="answer6">
     </div>
 
     <div class="task">
       <h3>7. Как называется этот мем?</h3>
       <img src="/images/7.png" alt="картинка задание 7">
-      <input type="text" placeholder="Ответ">
-      <button>Отправить</button>
+      <input type="text" placeholder="Ответ" id="answer7">
     </div>
+
+    <button class="submit-btn" id="submitBtn">Сдать работу</button>
   </div>
+
   <script>
-    document.querySelectorAll('button').forEach(button => {
-    button.addEventListener('click', () => alert('ты ерлан? 😍'));
-});
+    document.getElementById('submitBtn').addEventListener('click', function() {
+      // Правильные ответы
+      const correctAnswers = [
+        'порк',
+        'кар',
+        'захват',
+        'грусть',
+        'дает',
+        'лошадь',
+        'затвра'
+      ];
+      
+      // Получаем ответы пользователя
+      const userAnswers = [];
+      for (let i = 1; i <= 7; i++) {
+        userAnswers.push(document.getElementById(`answer${i}`).value.toLowerCase().trim());
+      }
+      
+      // Проверяем ответы
+      let correctCount = 0;
+      for (let i = 0; i < 7; i++) {
+        if (userAnswers[i].includes(correctAnswers[i])) {
+          correctCount++;
+        }
+      }
+      
+      // Рассчитываем процент
+      const percentage = Math.round(correctCount * 14.2);
+      
+      // Перенаправляем на страницу результатов
+      window.location.href = `/results?pr=${percentage}`;
+    });
   </script>
 </body>
 </html>
