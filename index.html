@@ -134,39 +134,38 @@
     <button class="submit-btn" id="submitBtn">Сдать работу</button>
   </div>
 
-  <script>
-    document.getElementById('submitBtn').addEventListener('click', function() {
-      // Правильные ответы
-      const correctAnswers = [
-        'порк',
-        'кар',
-        'захват',
-        'грусть',
-        'дает',
-        'лошадь',
-        'завтра'
-      ];
-      
-      // Получаем ответы пользователя
-      const userAnswers = [];
-      for (let i = 1; i <= 7; i++) {
-        userAnswers.push(document.getElementById(`answer${i}`).value.toLowerCase().trim());
+<script>
+  document.getElementById('submitBtn').addEventListener('click', function() {
+    const correctAnswers = [
+      'порк',
+      'кар',
+      'захват',
+      'грусть',
+      'дает',
+      'лошадь',
+      'затвра'
+    ];
+    
+    // Получаем ответы пользователя
+    const userAnswers = [];
+    for (let i = 1; i <= 7; i++) {
+      userAnswers.push(document.getElementById(`answer${i}`).value.trim());
+    }
+    
+    // Проверяем ответы
+    let correctCount = 0;
+    for (let i = 0; i < 7; i++) {
+      if (userAnswers[i].toLowerCase().includes(correctAnswers[i])) {
+        correctCount++;
       }
-      
-      // Проверяем ответы
-      let correctCount = 0;
-      for (let i = 0; i < 7; i++) {
-        if (userAnswers[i].includes(correctAnswers[i])) {
-          correctCount++;
-        }
-      }
-      
-      // Рассчитываем процент
-      const percentage = Math.ceil(correctCount * 14.2);
-      
-      // Перенаправляем на страницу результатов
-      window.location.href = `/results?pr=${percentage}`;
-    });
-  </script>
+    }
+    
+    // Рассчитываем процент с округлением вверх
+    const percentage = Math.ceil(correctCount * 14.2);
+    
+    // Перенаправляем на страницу результатов с параметрами
+    window.location.href = `results.html?pr=${percentage}&answers=${encodeURIComponent(JSON.stringify(userAnswers))}`;
+  });
+</script>
 </body>
 </html>
