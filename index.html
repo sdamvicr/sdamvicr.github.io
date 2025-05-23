@@ -162,7 +162,7 @@
       }
       
       // Рассчитываем процент
-      const percentage = Math.round(correctCount * 14.2);
+      const percentage = Math.ceil(correctCount * 14.2);
       
       // Перенаправляем на страницу результатов
       window.location.href = `/results?pr=${percentage}`;
